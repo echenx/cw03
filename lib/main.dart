@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(MaterialApp(
@@ -22,6 +23,12 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _setText() {
     setState(() {
       petName = titleController.text;
+    });
+  }
+
+  void autoHungerLevel() {
+    setState(() {
+      hungerLevel = hungerLevel + 5;
     });
   }
 
@@ -96,6 +103,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
   @override
   Widget build(BuildContext context) {
+    Timer.periodic(Duration(seconds: 30), (Timer t) => autoHungerLevel());
     return Scaffold(
       appBar: AppBar(
         title: Text('Digital Pet'),

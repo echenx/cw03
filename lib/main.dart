@@ -12,10 +12,18 @@ class DigitalPetApp extends StatefulWidget {
 }
 
 class _DigitalPetAppState extends State<DigitalPetApp> {
-  String petName = "Your Pet";
+  final titleController = TextEditingController();
+  String petName = "No Value Entered";
+
   int happinessLevel = 50;
   int hungerLevel = 50;
   Color petColor = Colors.yellow; // Initial color based on happiness level
+
+  void _setText() {
+    setState(() {
+      petName = titleController.text;
+    });
+  }
 
   // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
@@ -76,6 +84,18 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextFormField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Enter your petname'),
+            ),
+            ElevatedButton(
+                onPressed: _setText,
+                /*style: ButtonStyle(
+                    backgroundColor:Colors.amber),*/
+                child: const Text('Submit')),
+
             // Transparent pet image with a dynamic color filter
             ColorFiltered(
               colorFilter: ColorFilter.mode(
@@ -118,4 +138,3 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     );
   }
 }
-

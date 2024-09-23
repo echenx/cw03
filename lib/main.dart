@@ -57,13 +57,33 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
   void _updatePetColor() {
     setState(() {
       if (happinessLevel > 70) {
-        petColor = Colors.green; // Happy
+        petColor = Colors.green;
       } else if (happinessLevel >= 30) {
-        petColor = Colors.yellow; // Neutral
+        petColor = Colors.yellow;
       } else {
-        petColor = Colors.red; // Unhappy
+        petColor = Colors.red;
       }
     });
+  }
+
+  String _petMood() {
+    if (happinessLevel > 70) {
+      return 'Happy';
+    } else if (happinessLevel >= 30) {
+      return 'Neutral';
+    } else {
+      return 'Unhappy';
+    }
+  }
+
+  String _moodEmojoi() {
+    if (happinessLevel > 70) {
+      return '😊';
+    } else if (happinessLevel >= 30) {
+      return '😐';
+    } else {
+      return '😢';
+    }
   }
 
   @override
@@ -112,10 +132,22 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
               onPressed: _feedPet,
               child: Text('Feed Your Pet'),
             ),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Mood: ${_petMood()}'),
+                SizedBox(width: 5.0),
+                Text(
+                  _moodEmojoi(),
+                  style: TextStyle(fontSize: 30.0),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
   }
 }
-

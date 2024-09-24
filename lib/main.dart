@@ -29,6 +29,12 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     });
   }
 
+  void autoHungerLevel() {
+    setState(() {
+      hungerLevel = hungerLevel + 5;
+    });
+  }
+
   // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
     setState(() {
@@ -125,6 +131,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
   @override
   Widget build(BuildContext context) {
+    Timer.periodic(Duration(seconds: 30), (Timer t) => autoHungerLevel());
     return Scaffold(
       appBar: AppBar(
         title: Text('Digital Pet'),

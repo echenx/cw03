@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(MaterialApp(
@@ -17,7 +18,10 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
   int happinessLevel = 50;
   int hungerLevel = 50;
-  Color petColor = Colors.yellow; // Initial color based on happiness level
+  Color petColor = Colors.yellow;
+  Timer? _win;
+  bool won = false;
+  String? gameOver;
 
   void _setText() {
     setState(() {
@@ -31,6 +35,8 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
       _updateHunger();
       _updatePetColor(); // Update color based on happiness
+      _checkWin();
+      _checkLoss();
     });
   }
 
@@ -40,6 +46,8 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
       hungerLevel = (hungerLevel - 10).clamp(0, 100);
       _updateHappiness();
       _updatePetColor(); // Update color based on happiness
+      _checkWin();
+      _checkLoss();
     });
   }
 
@@ -74,6 +82,27 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     });
   }
 
+  void _checkWin() {
+    if (happinessLevel > 80 && !won) {
+      _win = Timer(Duration(minutes: 3), () {
+        setState(() {
+          won = true;
+          gameOver = "You Win!";
+        });
+      });
+    }
+  }
+
+  void _checkLoss() {
+    if (hungerLevel >= 100 && happinessLevel <= 10) {
+      setState(() {
+        won = true;
+        gameOver = "Game Over!";
+        _win?.cancel();
+      });
+    }
+  }
+
   String _petMood() {
     if (happinessLevel > 70) {
       return 'Happy';
@@ -104,6 +133,12 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (gameOver != null)
+              Text(
+                gameOver!,
+                textAlign: TextAlign.center,
+              ),
+
             TextFormField(
               controller: titleController,
               decoration: const InputDecoration(
